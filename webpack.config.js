@@ -51,6 +51,18 @@ module.exports = (env, argv) => {
             },
           ].filter(Boolean),
         },
+        {
+          test: /\.(png|jpe?g|gif)$/i,
+          use: [
+            {
+              loader: "file-loader",
+              options: {
+                name: "[name].[ext]",
+                outputPath: "images/",
+              },
+            },
+          ],
+        },
       ],
     },
     resolve: {
