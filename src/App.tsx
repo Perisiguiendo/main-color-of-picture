@@ -1,6 +1,15 @@
 import imgList from "../public/images";
 
-const imgRgba2Bg = (url: string) => {
+function getUniformlyIncreasingValues(len: number, arr: string[]) {
+  const result = [];
+  const interval = Math.floor((arr.length - 1) / (len - 1));
+  for (let i = 0; i < len; i++) {
+    result.push(arr[i * interval]);
+  }
+  return result;
+}
+
+const imgRgba2Bg = (url: string, len: number) => {
   const image = new Image();
   image.src = url;
   image.onload = () => {
@@ -50,14 +59,15 @@ const imgRgba2Bg = (url: string) => {
     // 将每行的平均值作为背景颜色设置给包裹图片的元素
     const bg = document.querySelector("#bg");
     if (!bg) return;
-    for (let i = 0; i < numRows; i++) {
-      bg.style.background = `linear-gradient(to bottom, ${rowColors.join(",")}`;
+    const result = getUniformlyIncreasingValues(len, rowColors);
+    for (let i = 0; i < result.length; i++) {
+      bg.style.background = `linear-gradient(to bottom, ${result.join(",")}`;
     }
   };
 };
 export function App() {
   function handleMouseEnter(image: string) {
-    imgRgba2Bg(image);
+    imgRgba2Bg(image, 3);
   }
   function handleMouseLeave() {
     //
